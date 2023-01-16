@@ -1,0 +1,137 @@
+name: cli
+help: Sample application
+version: 0.1.0
+
+commands:
+- name: azion
+  help: Azion commands
+
+  commands:
+  - name: token
+    help: Get a token to api requests
+
+    dependencies:
+      - curl
+
+    environment_variables:
+    - name: azion_username
+      required: true
+    - name: azion_password
+      required: true
+
+- name: gcp
+  help: Google Cloud Platform commands
+
+  dependencies:
+    gcloud: install google-cloud-sdk, more info at https://cloud.google.com/sdk/docs/install
+
+  commands:
+
+  - name: api
+    help: API related commands
+
+    commands:
+    - name: disable
+      help: Disable API
+      
+      args:
+      - name: api
+
+      flags:
+      - long: --project
+        arg: project
+        required: true
+        help: GCP project
+
+      examples:
+        - cli gcp api disable pubsub.googleapis.com --project my_project
+
+    - name: enable
+      help: Enable API
+      
+      args:
+      - name: api
+
+      flags:
+      - long: --project
+        arg: project
+        required: true
+        help: GCP project
+
+      examples:
+        - cli gcp api enable pubsub.googleapis.com --project my_project
+
+    - name: list-enabled
+      help: List enabled APIs
+
+      flags:
+      - long: --project
+        arg: project
+        required: true
+        help: GCP project
+      - long: --only-name
+
+    - name: list-available
+      help: List available APIs
+
+      flags:
+      - long: --project
+        arg: project
+        required: true
+        help: GCP project
+      - long: --only-name
+
+  - name: functions
+    alias: [function, func]
+    help: Function related commands
+
+    commands:
+    - name: list
+      alias: l
+      help: List functions
+      default: true
+
+      flags:
+      - long: --project
+        arg: project
+        required: true
+        help: GCP project
+      - long: --enable-api
+        help: Enable the API
+      - long: --only-name
+
+  - name: gae
+    alias: appengine
+    help: App Engine related commands
+
+    commands:
+    - name: services
+      alias: [service, svc]
+      help: Service related commands
+
+      commands:
+      - name: list
+        alias: l
+        help: List services
+        default: true
+
+        flags:
+        - long: --project
+          arg: project
+          required: true
+          help: GCP project
+        - long: --only-service
+
+  - name: projects
+    alias: [project, p]
+    help: Project related commands
+
+    commands:
+    - name: list
+      alias: l
+      help: List projects
+      default: true
+
+      flags:
+      - long: --only-name
+      - long: --only-id
